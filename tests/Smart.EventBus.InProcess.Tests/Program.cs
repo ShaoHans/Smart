@@ -12,3 +12,4 @@ var provider = services.BuildServiceProvider();
 
 var eventBus = provider.GetRequiredService<IEventBus>();
 await eventBus.PublishAsync(new UserRegistEvent { UserName = "shz", Email = "111@qq.com", Mobile = "12345678910" });
+await eventBus.PublishAsync(new UserLoginEvent { UserName = "shz" });
