@@ -3,14 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Smart.EventBus;
-using Smart.EventBus.InProcess;
 using Smart.EventBus.InProcess.Tests;
 
 var services = new ServiceCollection();
-services.AddSingleton<IEventBus, InProcessEventBus>();
-services.AddKeyedSingleton(typeof(IInProcessEventHandler), "UserRegistEvent", typeof(SendEmailEventHandler));
-services.AddKeyedSingleton(typeof(IInProcessEventHandler), "UserRegistEvent", typeof(SendSmsCodeEventHandler));
-services.AddSingleton<InProcessEventHandlerInvoker>();
+services.AddInProcessEventBus();
 services.AddLogging(configure => configure.AddConsole());
 var provider = services.BuildServiceProvider();
 
