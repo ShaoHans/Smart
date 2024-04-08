@@ -2,6 +2,6 @@
 
 namespace Smart.EventBus.InProcess;
 
-public abstract class InProcessEventHandler<TEvent>(ILogger<InProcessEventHandler<TEvent>> logger) : EventHandlerBase<TEvent>(logger) where TEvent : IEvent
+public abstract class InProcessEventHandler<TEvent>(ILogger<InProcessEventHandler<TEvent>> logger) : EventHandlerBase<TEvent>(logger), IInProcessEventHandler where TEvent : IEvent
 {
 }
