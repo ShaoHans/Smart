@@ -8,7 +8,8 @@ using Smart.EventBus.InProcess.Tests;
 
 var services = new ServiceCollection();
 services.AddSingleton<IEventBus, InProcessEventBus>();
-services.AddKeyedSingleton(typeof(InProcessEventHandler<UserRegistEvent>), "InProcess_EventHandler", typeof(SendEmailEventHandler));
+services.AddKeyedSingleton(typeof(InProcessEventHandler<UserRegistEvent>), "UserRegistEvent", typeof(SendEmailEventHandler));
+services.AddSingleton<InProcessEventHandlerInvoker>();
 services.AddLogging(configure => configure.AddConsole());
 var provider = services.BuildServiceProvider();
 
