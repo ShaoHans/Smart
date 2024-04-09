@@ -1,4 +1,6 @@
-﻿using Smart.EventBus;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using Smart.EventBus;
 using Smart.EventBus.InProcess;
 
 using System.Reflection;
@@ -7,9 +9,17 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddInProcessEventBus(this IServiceCollection services, params Assembly[] assemblies)
+    public static IServiceCollection AddInProcessEventBus(this IServiceCollection services, string serviceKey = "", params Assembly[] assemblies)
     {
-        services.AddSingleton<IEventBus, InProcessEventBus>();
+        if (string.IsNullOrEmpty(serviceKey))
+        {
+            services.TryAddSingleton<IEventBus, InProcessEventBus>();
+        }
+        else
+        {
+            services.TryAddKeyedSingleton<IEventBus, InProcessEventBus>(serviceKey);
+        }
+
         services.AddSingleton<InProcessEventHandlerInvoker>();
 
         if (assemblies.Length == 0)
