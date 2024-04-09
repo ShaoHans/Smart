@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Smart.EventBus.InProcess;
 
-public class InProcessEventHandlerInvoker(IServiceProvider serviceProvider, ILogger<InProcessEventHandlerInvoker> logger)
+internal class InProcessEventHandlerInvoker(IServiceProvider serviceProvider, ILogger<InProcessEventHandlerInvoker> logger)
 {
     public async Task InvokeAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) where TEvent : IEvent
     {        

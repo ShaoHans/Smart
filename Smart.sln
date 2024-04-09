@@ -7,13 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5C3C9274-8A3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{16EA78E8-4177-43E0-BC14-74D436D9D3AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublishSubscribePattern", "tests\PublishSubscribePattern\PublishSubscribePattern.csproj", "{E52B0B01-FE38-4478-A651-035662162DFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublishSubscribePattern", "tests\PublishSubscribePattern\PublishSubscribePattern.csproj", "{E52B0B01-FE38-4478-A651-035662162DFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.EventBus", "src\Smart.EventBus\Smart.EventBus.csproj", "{4FE0229F-A7C2-45CB-B91D-2AD6BDAFA6C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.EventBus", "src\Smart.EventBus\Smart.EventBus.csproj", "{4FE0229F-A7C2-45CB-B91D-2AD6BDAFA6C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.EventBus.InProcess", "src\Smart.EventBus.InProcess\Smart.EventBus.InProcess.csproj", "{0CC946EB-537E-4A07-8529-C5C35E6249F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.EventBus.InProcess", "src\Smart.EventBus.InProcess\Smart.EventBus.InProcess.csproj", "{0CC946EB-537E-4A07-8529-C5C35E6249F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.EventBus.InProcess.Tests", "tests\Smart.EventBus.InProcess.Tests\Smart.EventBus.InProcess.Tests.csproj", "{2489D1E8-4796-4110-AF2F-F84FBBDDB6EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.EventBus.InProcess.Tests", "tests\Smart.EventBus.InProcess.Tests\Smart.EventBus.InProcess.Tests.csproj", "{2489D1E8-4796-4110-AF2F-F84FBBDDB6EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.EventBus.RabbitMQ", "src\Smart.EventBus.RabbitMQ\Smart.EventBus.RabbitMQ.csproj", "{3BFD97CA-28F9-4A89-BC1C-AEFBB74EDBE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{2489D1E8-4796-4110-AF2F-F84FBBDDB6EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2489D1E8-4796-4110-AF2F-F84FBBDDB6EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2489D1E8-4796-4110-AF2F-F84FBBDDB6EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BFD97CA-28F9-4A89-BC1C-AEFBB74EDBE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BFD97CA-28F9-4A89-BC1C-AEFBB74EDBE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BFD97CA-28F9-4A89-BC1C-AEFBB74EDBE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BFD97CA-28F9-4A89-BC1C-AEFBB74EDBE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{4FE0229F-A7C2-45CB-B91D-2AD6BDAFA6C7} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
 		{0CC946EB-537E-4A07-8529-C5C35E6249F9} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
 		{2489D1E8-4796-4110-AF2F-F84FBBDDB6EF} = {16EA78E8-4177-43E0-BC14-74D436D9D3AE}
+		{3BFD97CA-28F9-4A89-BC1C-AEFBB74EDBE2} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F9930CD-A1D0-4204-A90D-5221EA216F8B}
