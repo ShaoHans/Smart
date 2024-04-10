@@ -15,26 +15,9 @@ namespace Microsoft.Extensions.Hosting;
 
 public static class RabbitMQExtensions
 {
-    public static IHostApplicationBuilder AddRabbitMQEventBus(this IHostApplicationBuilder builder,
+    public static IHostApplicationBuilder AddRabbitMQ(
+        this IHostApplicationBuilder builder,
         string configSectionName = "RabbitMQ",
-        string serviceKey = "",
-        Action<IConnectionFactory>? configureConnectionFactory = null)
-    {
-        builder.AddRabbitMQ(configSectionName, configureConnectionFactory);
-
-        if (string.IsNullOrEmpty(serviceKey))
-        {
-            builder.Services.AddSingleton<IEventBus, RabbitMQEventBus>();
-        }
-        else
-        {
-            builder.Services.AddKeyedSingleton<IEventBus, RabbitMQEventBus>(serviceKey);
-        }
-        return builder;
-    }
-
-    public static void AddRabbitMQ(this IHostApplicationBuilder builder, 
-        string configSectionName = "RabbitMQ", 
         Action<IConnectionFactory>? configureConnectionFactory = null)
     {
         var configSection = builder.Configuration.GetSection(configSectionName);
@@ -58,8 +41,34 @@ public static class RabbitMQExtensions
 
         builder.Services.AddSingleton(CreateConnectionFactory);
         builder.Services.AddSingleton(sp => CreateConnection(sp.GetRequiredService<IConnectionFactory>(), settings.MaxConnectRetryCount));
+
+        return builder;
     }
 
+    public static IHostApplicationBuilder AddRabbitMQEventBus(
+        this IHostApplicationBuilder builder,
+        string configSectionName = "RabbitMQ",
+        string serviceKey = "",
+        Action<IConnectionFactory>? configureConnectionFactory = null)
+    {
+        builder.AddRabbitMQ(configSectionName, configureConnectionFactory);
+
+        if (string.IsNullOrEmpty(serviceKey))
+        {
+            builder.Services.AddSingleton<IEventBus, RabbitMQEventBus>();
+        }
+        else
+        {
+            builder.Services.AddKeyedSingleton<IEventBus, RabbitMQEventBus>(serviceKey);
+        }
+        return builder;
+    }
+
+    public static IHostApplicationBuilder AddRabbitMQSubscription(this IHostApplicationBuilder builder)
+    {
+        builder.Services.AddHostedService<RabbitMQSubscriptionHostedService>();
+        return builder;
+    }
 
     private static IConnection CreateConnection(IConnectionFactory factory, int retryCount)
     {
@@ -72,5 +81,4 @@ public static class RabbitMQExtensions
             return factory.CreateConnection();
         });
     }
-
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using RabbitMQ.Client;
 
@@ -6,20 +7,24 @@ using System.Text.Json;
 
 namespace Smart.EventBus.RabbitMQ;
 
-internal class RabbitMQEventBus(ILogger<RabbitMQEventBus> logger, IConnection connection) : IEventBus
+internal class RabbitMQEventBus(
+    ILogger<RabbitMQEventBus> logger, 
+    IConnection connection, 
+    IOptionsMonitor<RabbitMQClientSettings> options) : IEventBus
 {
+    private readonly RabbitMQClientSettings _settings = options.CurrentValue;
+
     public Task PublishAsync(IEvent @event, CancellationToken cancellationToken = default)
     {
         using var channel = connection.CreateModel();
-        var exchange = "Smart";
         var routingKey = @event.GetType().Name;
 
-        channel.ExchangeDeclare(exchange: exchange, type: "direct");
+        channel.ExchangeDeclare(exchange: _settings.ExchangeName, _settings.ExchangeType);
         var properties = channel.CreateBasicProperties();
         properties.MessageId = @event.Id.ToString();
         properties.DeliveryMode = 2;
         channel.BasicPublish(
-            exchange: exchange,
+            exchange: _settings.ExchangeName,
             routingKey: routingKey,
             mandatory: true,
             basicProperties: properties,
