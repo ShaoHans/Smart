@@ -15,12 +15,12 @@ internal class RabbitMQSubscriptionHostedService(
     ILogger<RabbitMQSubscriptionHostedService> logger,
     IConnection connection,
     IOptionsMonitor<RabbitMQClientSettings> mqClientSettingOptions,
-    IOptions<RoutingKeyOptions> options1
+    IOptions<RoutingKeyOptions> routingKeyOptions
 ) : IHostedService
 {
     private readonly RabbitMQClientSettings _settings = mqClientSettingOptions.CurrentValue;
     private readonly IModel _channel = connection.CreateModel();
-    private readonly Dictionary<string, Type> _eventTypes = options1.Value.EventTypes;
+    private readonly Dictionary<string, Type> _eventTypes = routingKeyOptions.Value.EventTypes;
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
@@ -43,11 +43,15 @@ internal class RabbitMQSubscriptionHostedService(
 
         _channel.BasicConsume(queue: _settings.QueueName, autoAck: false, consumer: consumer);
 
-        _channel.QueueBind(
-            queue: _settings.QueueName,
-            exchange: _settings.ExchangeName,
-            routingKey: ""
-        );
+        foreach (var item in _eventTypes)
+        {
+            _channel.QueueBind(
+                queue: _settings.QueueName,
+                exchange: _settings.ExchangeName,
+                routingKey: item.Key
+            );
+            logger.LogInformation("bind {@Key} to queue {@QueueName}", item.Key, _settings.QueueName);
+        }
 
         return Task.CompletedTask;
     }

@@ -22,6 +22,14 @@ public static class RabbitMQExtensions
         var configSection = builder.Configuration.GetSection(configSectionName);
         var settings = new RabbitMQClientSettings();
         configSection.Bind(settings);
+        builder.Services.Configure<RabbitMQClientSettings>(o =>
+        {
+            o.ConnectionString = settings.ConnectionString;
+            o.MaxConnectRetryCount = settings.MaxConnectRetryCount;
+            o.ExchangeName = settings.ExchangeName;
+            o.ExchangeType = settings.ExchangeType;
+            o.QueueName = settings.QueueName;
+        });
 
         if (string.IsNullOrEmpty(settings.ConnectionString))
         {
@@ -90,7 +98,7 @@ public static class RabbitMQExtensions
             foreach (var handlerType in handlerTypes)
             {
                 var routingKey = handlerType.BaseType!.GenericTypeArguments[0].FullName;
-                eventTypes.TryAdd(routingKey!, handlerType!.GenericTypeArguments[0]);
+                eventTypes.TryAdd(routingKey!, handlerType.BaseType!.GenericTypeArguments[0]);
                 builder.Services.AddKeyedTransient(typeof(IRabbitMQEventHandler), routingKey, handlerType);
             }
         }
