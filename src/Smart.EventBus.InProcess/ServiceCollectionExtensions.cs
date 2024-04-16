@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
             var handlerTypes = assembly.GetTypes().Where(t => typeof(IInProcessEventHandler).IsAssignableFrom(t));
             foreach (var handlerType in handlerTypes)
             {
-                services.AddKeyedSingleton(typeof(IInProcessEventHandler), handlerType.BaseType!.GetGenericArguments()[0].Name, handlerType);
+                services.AddKeyedTransient(typeof(IInProcessEventHandler), handlerType.BaseType!.GetGenericArguments()[0].Name, handlerType);
             }
         }
 

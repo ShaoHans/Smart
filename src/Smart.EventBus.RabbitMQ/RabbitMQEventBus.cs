@@ -17,7 +17,7 @@ internal class RabbitMQEventBus(
     public Task PublishAsync(IEvent @event, CancellationToken cancellationToken = default)
     {
         using var channel = connection.CreateModel();
-        var routingKey = @event.GetType().Name;
+        var routingKey = @event.GetType().FullName;
 
         channel.ExchangeDeclare(exchange: _settings.ExchangeName, _settings.ExchangeType);
         var properties = channel.CreateBasicProperties();
