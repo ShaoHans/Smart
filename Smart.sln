@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5C3C9274-8A3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{16EA78E8-4177-43E0-BC14-74D436D9D3AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublishSubscribePattern", "tests\PublishSubscribePattern\PublishSubscribePattern.csproj", "{E52B0B01-FE38-4478-A651-035662162DFC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.EventBus", "src\Smart.EventBus\Smart.EventBus.csproj", "{4FE0229F-A7C2-45CB-B91D-2AD6BDAFA6C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.EventBus.InProcess", "src\Smart.EventBus.InProcess\Smart.EventBus.InProcess.csproj", "{0CC946EB-537E-4A07-8529-C5C35E6249F9}"
@@ -25,16 +23,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Smart.EventBus.Messa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Smart.EventBus.InProcess", "samples\Sample.Smart.EventBus.InProcess\Sample.Smart.EventBus.InProcess.csproj", "{B0970FC8-B755-46B6-AE1F-DF3B9C69A3BB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.PublishSubscribePattern", "samples\Sample.PublishSubscribePattern\Sample.PublishSubscribePattern.csproj", "{E3189B6B-25F8-426F-A9A0-F091B8911472}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E52B0B01-FE38-4478-A651-035662162DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E52B0B01-FE38-4478-A651-035662162DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E52B0B01-FE38-4478-A651-035662162DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E52B0B01-FE38-4478-A651-035662162DFC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4FE0229F-A7C2-45CB-B91D-2AD6BDAFA6C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4FE0229F-A7C2-45CB-B91D-2AD6BDAFA6C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FE0229F-A7C2-45CB-B91D-2AD6BDAFA6C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,12 +59,15 @@ Global
 		{B0970FC8-B755-46B6-AE1F-DF3B9C69A3BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0970FC8-B755-46B6-AE1F-DF3B9C69A3BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0970FC8-B755-46B6-AE1F-DF3B9C69A3BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3189B6B-25F8-426F-A9A0-F091B8911472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3189B6B-25F8-426F-A9A0-F091B8911472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3189B6B-25F8-426F-A9A0-F091B8911472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3189B6B-25F8-426F-A9A0-F091B8911472}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E52B0B01-FE38-4478-A651-035662162DFC} = {16EA78E8-4177-43E0-BC14-74D436D9D3AE}
 		{4FE0229F-A7C2-45CB-B91D-2AD6BDAFA6C7} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
 		{0CC946EB-537E-4A07-8529-C5C35E6249F9} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
 		{3BFD97CA-28F9-4A89-BC1C-AEFBB74EDBE2} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
@@ -76,6 +75,7 @@ Global
 		{282E3C3C-F896-4CC2-A702-2EB95852D93F} = {51EA2294-E71A-492E-B5BB-79E5574C027D}
 		{62C398BB-A8EF-498D-AF46-97298A0D27A2} = {51EA2294-E71A-492E-B5BB-79E5574C027D}
 		{B0970FC8-B755-46B6-AE1F-DF3B9C69A3BB} = {51EA2294-E71A-492E-B5BB-79E5574C027D}
+		{E3189B6B-25F8-426F-A9A0-F091B8911472} = {51EA2294-E71A-492E-B5BB-79E5574C027D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F9930CD-A1D0-4204-A90D-5221EA216F8B}

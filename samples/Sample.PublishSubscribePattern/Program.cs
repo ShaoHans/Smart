@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using PublishSubscribePattern;
+using Sample.PublishSubscribePattern;
 
 var emailService = new EmailService();
 var registService = new RegistService();

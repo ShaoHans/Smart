@@ -1,4 +1,4 @@
-﻿namespace PublishSubscribePattern;
+﻿namespace Sample.PublishSubscribePattern;
 
 internal class User
 {

@@ -1,4 +1,4 @@
-﻿namespace PublishSubscribePattern;
+﻿namespace Sample.PublishSubscribePattern;
 
 /// <summary>
 /// 邮件服务（观察者）
