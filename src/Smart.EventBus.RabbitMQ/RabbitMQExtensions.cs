@@ -1,6 +1,5 @@
 ﻿using System.Net.Sockets;
 using System.Reflection;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -40,7 +39,11 @@ public static class RabbitMQExtensions
 
         IConnectionFactory CreateConnectionFactory(IServiceProvider sp)
         {
-            var factory = new ConnectionFactory { Uri = new(settings.ConnectionString!) };
+            var factory = new ConnectionFactory
+            {
+                Uri = new(settings.ConnectionString!),
+                DispatchConsumersAsync = true
+            };
             configureConnectionFactory?.Invoke(factory);
             return factory;
         }
@@ -94,12 +97,18 @@ public static class RabbitMQExtensions
         var eventTypes = new Dictionary<string, Type>();
         foreach (var assembly in handlerAssemblies)
         {
-            var handlerTypes = assembly.GetTypes().Where(t => typeof(IRabbitMQEventHandler).IsAssignableFrom(t));
+            var handlerTypes = assembly
+                .GetTypes()
+                .Where(t => typeof(IRabbitMQEventHandler).IsAssignableFrom(t));
             foreach (var handlerType in handlerTypes)
             {
                 var routingKey = handlerType.BaseType!.GenericTypeArguments[0].FullName;
                 eventTypes.TryAdd(routingKey!, handlerType.BaseType!.GenericTypeArguments[0]);
-                builder.Services.AddKeyedTransient(typeof(IRabbitMQEventHandler), routingKey, handlerType);
+                builder.Services.AddKeyedTransient(
+                    typeof(IRabbitMQEventHandler),
+                    routingKey,
+                    handlerType
+                );
             }
         }
 
