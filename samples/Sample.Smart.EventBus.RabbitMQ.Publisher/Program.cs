@@ -14,4 +14,5 @@ var host = builder.Build();
 
 var eventBus = host.Services.GetRequiredService<IEventBus>();
 await eventBus.PublishAsync(new UserRegistEvent { UserName = "tom", Mobile = "110", Email = "tom@gmail.com" });
+Console.WriteLine("has sent user registed event message");
 await host.RunAsync();

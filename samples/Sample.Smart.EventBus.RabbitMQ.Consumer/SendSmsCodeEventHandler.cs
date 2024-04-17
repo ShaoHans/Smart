@@ -10,7 +10,7 @@ internal class SendSmsCodeEventHandler(ILogger<SendSmsCodeEventHandler> logger) 
 {
     public override Task InnerHandlerAsync(UserRegistEvent eventData, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("已给用户发送手机验证码：{@eventData}", eventData);
+        _logger.LogInformation("send sms code to user {@UserName}", eventData.UserName);
         return Task.CompletedTask;
     }
 }
