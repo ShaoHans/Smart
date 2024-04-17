@@ -1,12 +1,13 @@
-﻿using System.Collections.Concurrent;
-using System.Text;
-using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+
+using System.Text;
+using System.Text.Json;
 
 namespace Smart.EventBus.RabbitMQ;
 
@@ -50,7 +51,11 @@ internal class RabbitMQSubscriptionHostedService(
                 exchange: _settings.ExchangeName,
                 routingKey: item.Key
             );
-            logger.LogInformation("bind {@Key} to queue {@QueueName}", item.Key, _settings.QueueName);
+            logger.LogInformation(
+                "bind {@Key} to queue {@QueueName}",
+                item.Key,
+                _settings.QueueName
+            );
         }
 
         return Task.CompletedTask;

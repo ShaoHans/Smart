@@ -1,5 +1,3 @@
 ﻿namespace Smart.EventBus.InProcess;
 
-public interface IInProcessEventHandler : IEventHandler
-{
-}
+public interface IInProcessEventHandler : IEventHandler { }

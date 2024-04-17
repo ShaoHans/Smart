@@ -1,16 +1,15 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
 using RabbitMQ.Client;
-
-using System.Text.Json;
 
 namespace Smart.EventBus.RabbitMQ;
 
 internal class RabbitMQEventBus(
-    ILogger<RabbitMQEventBus> logger, 
-    IConnection connection, 
-    IOptionsMonitor<RabbitMQClientSettings> options) : IEventBus
+    ILogger<RabbitMQEventBus> logger,
+    IConnection connection,
+    IOptionsMonitor<RabbitMQClientSettings> options
+) : IEventBus
 {
     private readonly RabbitMQClientSettings _settings = options.CurrentValue;
 
@@ -28,7 +27,8 @@ internal class RabbitMQEventBus(
             routingKey: routingKey,
             mandatory: true,
             basicProperties: properties,
-            body: JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType()));
+            body: JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType())
+        );
         return Task.CompletedTask;
     }
 }

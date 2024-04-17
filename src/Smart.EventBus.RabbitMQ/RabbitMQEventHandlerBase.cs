@@ -2,10 +2,7 @@
 
 namespace Smart.EventBus.RabbitMQ;
 
-public abstract class RabbitMQEventHandlerBase<TEvent>(ILogger<RabbitMQEventHandlerBase<TEvent>> logger)
-    : EventHandlerBase<TEvent>(logger),
-        IRabbitMQEventHandler
-    where TEvent : IEvent 
-{
-    
-}
+public abstract class RabbitMQEventHandlerBase<TEvent>(
+    ILogger<RabbitMQEventHandlerBase<TEvent>> logger
+) : EventHandlerBase<TEvent>(logger), IRabbitMQEventHandler
+    where TEvent : IEvent { }

@@ -1,9 +1,10 @@
-﻿
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Smart.EventBus;
 
-public abstract class EventHandlerBase<TEvent>(ILogger<EventHandlerBase<TEvent>> logger) : IEventHandler<TEvent> where TEvent : IEvent
+public abstract class EventHandlerBase<TEvent>(ILogger<EventHandlerBase<TEvent>> logger)
+    : IEventHandler<TEvent>
+    where TEvent : IEvent
 {
     protected readonly ILogger _logger = logger;
 
@@ -19,7 +20,10 @@ public abstract class EventHandlerBase<TEvent>(ILogger<EventHandlerBase<TEvent>>
         }
     }
 
-    public abstract Task InnerHandlerAsync(TEvent @event, CancellationToken cancellationToken = default);
+    public abstract Task InnerHandlerAsync(
+        TEvent @event,
+        CancellationToken cancellationToken = default
+    );
 
     public virtual Task HandleExceptionAsync(Exception exception, TEvent eventData)
     {

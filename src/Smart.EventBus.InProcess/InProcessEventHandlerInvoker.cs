@@ -3,10 +3,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Smart.EventBus.InProcess;
 
-internal class InProcessEventHandlerInvoker(IServiceProvider serviceProvider, ILogger<InProcessEventHandlerInvoker> logger)
+internal class InProcessEventHandlerInvoker(
+    IServiceProvider serviceProvider,
+    ILogger<InProcessEventHandlerInvoker> logger
+)
 {
-    public async Task InvokeAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) where TEvent : IEvent
-    {        
+    public async Task InvokeAsync<TEvent>(
+        TEvent @event,
+        CancellationToken cancellationToken = default
+    )
+        where TEvent : IEvent
+    {
         var eventName = @event.GetType().Name;
         var handlers = serviceProvider.GetKeyedServices<IInProcessEventHandler>(eventName);
         if (!handlers.Any())
@@ -15,10 +22,9 @@ internal class InProcessEventHandlerInvoker(IServiceProvider serviceProvider, IL
             return;
         }
 
-
         foreach (var handler in handlers)
         {
-            await handler.HandleAsync(@event, cancellationToken);        
+            await handler.HandleAsync(@event, cancellationToken);
         }
     }
 }
