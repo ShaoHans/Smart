@@ -1,6 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Smart.EventBus.InProcess.Tests;
+using Sample.Smart.EventBus.Message;
+
+using Smart.EventBus.InProcess;
+
+namespace Sample.Smart.EventBus.InProcess;
 
 internal class SendSmsCodeEventHandler(ILogger<SendSmsCodeEventHandler> logger) : InProcessEventHandler<UserRegistEvent>(logger)
 {

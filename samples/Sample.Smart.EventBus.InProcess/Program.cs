@@ -2,8 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Sample.Smart.EventBus.Message;
+
 using Smart.EventBus;
-using Smart.EventBus.InProcess.Tests;
 
 var services = new ServiceCollection();
 services.AddInProcessEventBus();
