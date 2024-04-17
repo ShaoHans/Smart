@@ -8,7 +8,7 @@ using Smart.EventBus;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddLogging(configure => configure.AddConsole());
-builder.AddRabbitMQEventBus();
+builder.AddRabbitMQEventBus(eventAssemblies: typeof(UserLoginEvent).Assembly);
 
 var host = builder.Build();
 

@@ -8,26 +8,30 @@ namespace Smart.EventBus.RabbitMQ;
 internal class RabbitMQEventBus(
     ILogger<RabbitMQEventBus> logger,
     IConnection connection,
-    IOptionsMonitor<RabbitMQClientSettings> options
+    IOptionsMonitor<RabbitMQClientSettings> options,
+    IOptions<EventMetaDataProvider> metaDataOptions
 ) : IEventBus
 {
     private readonly RabbitMQClientSettings _settings = options.CurrentValue;
+    private readonly EventMetaDataProvider _prvider = metaDataOptions.Value;
 
     public Task PublishAsync(IEvent @event, CancellationToken cancellationToken = default)
     {
         using var channel = connection.CreateModel();
-        var routingKey = @event.GetType().FullName;
+        var name = @event.GetType().FullName;
+        var metaData = _prvider.MetaDatas!.GetValueOrDefault(name) ??
+            throw new ArgumentNullException($"not found the [{name}] event meta data ");
 
-        channel.ExchangeDeclare(exchange: _settings.ExchangeName, _settings.ExchangeType);
+        channel.ExchangeDeclare(exchange: metaData.ExchangeName, metaData.ExchangeType);
         var properties = channel.CreateBasicProperties();
         properties.MessageId = @event.Id.ToString();
         properties.DeliveryMode = 2;
         channel.BasicPublish(
-            exchange: _settings.ExchangeName,
-            routingKey: routingKey,
+            exchange: metaData.ExchangeName,
+            routingKey: metaData.RouteKey,
             mandatory: true,
             basicProperties: properties,
-            body: JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType())
+            body: JsonSerializer.SerializeToUtf8Bytes(@event, metaData.EventType!)
         );
         return Task.CompletedTask;
     }
