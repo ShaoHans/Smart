@@ -1,27 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Text;
+using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-
-using System.Text;
-using System.Text.Json;
 
 namespace Smart.EventBus.RabbitMQ;
 
 internal class RabbitMQSubscriptionHostedService(
     IServiceProvider serviceProvider,
     ILogger<RabbitMQSubscriptionHostedService> logger,
-    IConnection connection,
-    IOptionsMonitor<RabbitMQClientSettings> mqClientSettingOptions,
-    IOptions<RoutingKeyOptions> routingKeyOptions
+    IConnection connection
 ) : IHostedService
 {
-    private readonly RabbitMQClientSettings _settings = mqClientSettingOptions.CurrentValue;
     private readonly IModel _channel = connection.CreateModel();
-    private readonly Dictionary<string, Type> _eventTypes = routingKeyOptions.Value.EventTypes;
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
@@ -33,28 +26,28 @@ internal class RabbitMQSubscriptionHostedService(
         var consumer = new AsyncEventingBasicConsumer(_channel);
         consumer.Received += OnMessageReceivedAsync;
 
-        _channel.ExchangeDeclare(exchange: _settings.ExchangeName, type: _settings.ExchangeType);
+        foreach (var (name, type) in EventMetaDataProvider.GroupExchange())
+        {
+            _channel.ExchangeDeclare(exchange: name, type: type);
+        }
 
-        _channel.QueueDeclare(
-            queue: _settings.QueueName,
-            durable: true,
-            exclusive: false,
-            autoDelete: false
-        );
+        foreach (var queue in EventMetaDataProvider.GroupQueue())
+        {
+            _channel.QueueDeclare(queue: queue, durable: true, exclusive: false, autoDelete: false);
+            _channel.BasicConsume(queue: queue, autoAck: false, consumer: consumer);
+        }
 
-        _channel.BasicConsume(queue: _settings.QueueName, autoAck: false, consumer: consumer);
-
-        foreach (var item in _eventTypes)
+        foreach (var item in EventMetaDataProvider.MetaDatas)
         {
             _channel.QueueBind(
-                queue: _settings.QueueName,
-                exchange: _settings.ExchangeName,
+                queue: item.Value.QueueName,
+                exchange: item.Value.ExchangeName,
                 routingKey: item.Key
             );
             logger.LogInformation(
                 "bind {@Key} to queue {@QueueName}",
                 item.Key,
-                _settings.QueueName
+                item.Value.QueueName
             );
         }
 
@@ -63,25 +56,29 @@ internal class RabbitMQSubscriptionHostedService(
 
     private async Task OnMessageReceivedAsync(object sender, BasicDeliverEventArgs @event)
     {
-        var eventName = @event.RoutingKey;
         var message = Encoding.UTF8.GetString(@event.Body.Span);
         logger.LogInformation(
-            "received rabbitmq message:{@message}, RoutingKey:{@eventName}",
+            "received rabbitmq message:{@message}, RoutingKey:{@RoutingKey}",
             message,
-            eventName
+            @event.RoutingKey
         );
 
-        var eventType = _eventTypes.GetValueOrDefault(eventName);
-        if (eventType is null)
+        var metaData = EventMetaDataProvider.MetaDatas.GetValueOrDefault(@event.RoutingKey);
+        if (metaData is null)
         {
-            logger.LogWarning("not found RoutingKey [{@eventName}] corresponding Type", eventName);
+            logger.LogWarning(
+                "not found RoutingKey [{@RoutingKey}] corresponding event type",
+                @event.RoutingKey
+            );
             return;
         }
 
-        var eventData = JsonSerializer.Deserialize(message, eventType) as EventBase;
+        var eventData = JsonSerializer.Deserialize(message, metaData.EventType!) as EventBase;
 
         await using var scope = serviceProvider.CreateAsyncScope();
-        var handlers = scope.ServiceProvider.GetKeyedServices<IRabbitMQEventHandler>(eventName);
+        var handlers = scope.ServiceProvider.GetKeyedServices<IRabbitMQEventHandler>(
+            metaData.EventType!.FullName
+        );
         foreach (var handler in handlers)
         {
             await handler.HandleAsync(eventData!);

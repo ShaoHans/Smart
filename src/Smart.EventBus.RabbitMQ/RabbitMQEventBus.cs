@@ -10,21 +10,22 @@ internal class RabbitMQEventBus(ILogger<RabbitMQEventBus> logger, IConnection co
     public Task PublishAsync(IEvent @event, CancellationToken cancellationToken = default)
     {
         using var channel = connection.CreateModel();
-        var name = @event.GetType().FullName;
-        var metaData =
-            EventMetaDataProvider.MetaDatas!.GetValueOrDefault(name)
-            ?? throw new ArgumentNullException($"not found the [{name}] event meta data ");
+        var metaData = EventMetaDataProvider.GetMetaData(@event.GetType());
+        if (string.IsNullOrEmpty(metaData.Key))
+        {
+            throw new ArgumentException($"not found {@event.GetType()} event meta data");
+        }
 
-        channel.ExchangeDeclare(exchange: metaData.ExchangeName, metaData.ExchangeType);
+        channel.ExchangeDeclare(exchange: metaData.Value.ExchangeName, metaData.Value.ExchangeType);
         var properties = channel.CreateBasicProperties();
         properties.MessageId = @event.Id.ToString();
         properties.DeliveryMode = 2;
         channel.BasicPublish(
-            exchange: metaData.ExchangeName,
-            routingKey: metaData.RouteKey,
+            exchange: metaData.Value.ExchangeName,
+            routingKey: metaData.Key,
             mandatory: true,
             basicProperties: properties,
-            body: JsonSerializer.SerializeToUtf8Bytes(@event, metaData.EventType!)
+            body: JsonSerializer.SerializeToUtf8Bytes(@event, metaData.Value.EventType!)
         );
         return Task.CompletedTask;
     }

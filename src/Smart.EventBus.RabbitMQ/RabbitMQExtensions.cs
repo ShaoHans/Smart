@@ -100,10 +100,7 @@ public static class RabbitMQExtensions
 
             foreach (var eventType in eventTypes)
             {
-                EventMetaDataProvider.MetaDatas.TryAdd(
-                    eventType.FullName!,
-                    ParseEvent(eventType, settings!)
-                );
+                AddEventMetaData(eventType, settings);
             }
         }
 
@@ -145,10 +142,7 @@ public static class RabbitMQExtensions
             foreach (var handlerType in handlerTypes)
             {
                 var eventType = handlerType.BaseType!.GenericTypeArguments[0];
-                EventMetaDataProvider.MetaDatas.TryAdd(
-                    eventType.FullName!,
-                    ParseEvent(eventType, settings!)
-                );
+                AddEventMetaData(eventType, settings);
 
                 builder.Services.AddKeyedTransient(
                     typeof(IRabbitMQEventHandler),
@@ -177,26 +171,26 @@ public static class RabbitMQExtensions
         });
     }
 
-    private static EventMetaData ParseEvent(Type eventType, RabbitMQClientSettings settings)
+    private static void AddEventMetaData(Type eventType, RabbitMQClientSettings settings)
     {
         var attribute = eventType.GetCustomAttribute<EventAttribute>();
         var metaData = new EventMetaData { EventType = eventType };
-
+        string routingKey;
         if (attribute is null)
         {
-            metaData.RouteKey = eventType.FullName;
+            routingKey = eventType.FullName!;
             metaData.QueueName = settings.QueueName;
             metaData.ExchangeName = settings.ExchangeName;
             metaData.ExchangeType = settings.ExchangeType;
         }
         else
         {
-            metaData.RouteKey = attribute.RouteKey;
+            routingKey = attribute.RouteKey;
             metaData.QueueName = attribute.QueueName;
             metaData.ExchangeName = attribute.ExchangeName;
             metaData.ExchangeType = attribute.ExchangeType;
         }
 
-        return metaData;
+        EventMetaDataProvider.MetaDatas.TryAdd(routingKey, metaData);
     }
 }

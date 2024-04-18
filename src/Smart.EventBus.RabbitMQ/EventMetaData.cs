@@ -8,7 +8,5 @@ internal class EventMetaData
 
     public string? ExchangeType { get; set; }
 
-    public string? RouteKey { get; set; }
-
     public string? QueueName { get; set; }
 }
