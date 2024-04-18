@@ -27,8 +27,11 @@ internal class RabbitMQSubscriptionHostedService(
     {
         _channel.CallbackException += (sender, ea) =>
         {
-            logger.LogWarning(ea.Exception, "RabbitMQ consumer channel occur error");
+            logger.LogError(ea.Exception, "RabbitMQ consumer channel occur error");
         };
+
+        var consumer = new AsyncEventingBasicConsumer(_channel);
+        consumer.Received += OnMessageReceivedAsync;
 
         _channel.ExchangeDeclare(exchange: _settings.ExchangeName, type: _settings.ExchangeType);
 
@@ -38,9 +41,6 @@ internal class RabbitMQSubscriptionHostedService(
             exclusive: false,
             autoDelete: false
         );
-
-        var consumer = new AsyncEventingBasicConsumer(_channel);
-        consumer.Received += OnMessageReceivedAsync;
 
         _channel.BasicConsume(queue: _settings.QueueName, autoAck: false, consumer: consumer);
 

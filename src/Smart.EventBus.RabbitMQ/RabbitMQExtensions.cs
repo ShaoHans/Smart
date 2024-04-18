@@ -21,16 +21,14 @@ public static class RabbitMQExtensions
         var configSection = builder.Configuration.GetSection(configSectionName);
         var settings = new RabbitMQClientSettings();
         configSection.Bind(settings);
-        builder.Services.Configure<RabbitMQClientSettings>(
-            o =>
-            {
-                o.ConnectionString = settings.ConnectionString;
-                o.MaxConnectRetryCount = settings.MaxConnectRetryCount;
-                o.ExchangeName = settings.ExchangeName;
-                o.ExchangeType = settings.ExchangeType;
-                o.QueueName = settings.QueueName;
-            }
-        );
+        builder.Services.Configure<RabbitMQClientSettings>(o =>
+        {
+            o.ConnectionString = settings.ConnectionString;
+            o.MaxConnectRetryCount = settings.MaxConnectRetryCount;
+            o.ExchangeName = settings.ExchangeName;
+            o.ExchangeType = settings.ExchangeType;
+            o.QueueName = settings.QueueName;
+        });
 
         if (string.IsNullOrEmpty(settings.ConnectionString))
         {
@@ -85,29 +83,29 @@ public static class RabbitMQExtensions
             eventAssemblies = [Assembly.GetEntryAssembly()!];
         }
 
-        var metaDatas = new Dictionary<string, EventMetaData>();
         var settings = new RabbitMQClientSettings
         {
-            ExchangeName = builder.Configuration.GetValue<string>($"{configSectionName}:ExchangeName"),
+            ExchangeName = builder.Configuration.GetValue<string>(
+                $"{configSectionName}:ExchangeName"
+            ),
             QueueName = builder.Configuration.GetValue<string>($"{configSectionName}:QueueName"),
-            ExchangeType = builder.Configuration.GetValue<string>($"{configSectionName}:ExchangeType")
+            ExchangeType = builder.Configuration.GetValue<string>(
+                $"{configSectionName}:ExchangeType"
+            )
         };
-
 
         foreach (var assembly in eventAssemblies)
         {
             var eventTypes = assembly.GetTypes().Where(t => typeof(IEvent).IsAssignableFrom(t));
 
-            foreach (var eventType in eventTypes) 
+            foreach (var eventType in eventTypes)
             {
-                metaDatas.TryAdd(eventType.FullName!, ParseEvent(eventType, settings!));
+                EventMetaDataProvider.MetaDatas.TryAdd(
+                    eventType.FullName!,
+                    ParseEvent(eventType, settings!)
+                );
             }
         }
-
-        builder.Services.Configure<EventMetaDataProvider>(o =>
-        {
-            o.MetaDatas = metaDatas;
-        });
 
         return builder;
     }
@@ -127,28 +125,38 @@ public static class RabbitMQExtensions
             eventHandlerAssemblies = [Assembly.GetEntryAssembly()!];
         }
 
-        var eventTypes = new Dictionary<string, Type>();
+        var settings = new RabbitMQClientSettings
+        {
+            ExchangeName = builder.Configuration.GetValue<string>(
+                $"{configSectionName}:ExchangeName"
+            ),
+            QueueName = builder.Configuration.GetValue<string>($"{configSectionName}:QueueName"),
+            ExchangeType = builder.Configuration.GetValue<string>(
+                $"{configSectionName}:ExchangeType"
+            )
+        };
+
         foreach (var assembly in eventHandlerAssemblies)
         {
             var handlerTypes = assembly
                 .GetTypes()
                 .Where(t => typeof(IRabbitMQEventHandler).IsAssignableFrom(t));
+
             foreach (var handlerType in handlerTypes)
             {
-                var routingKey = handlerType.BaseType!.GenericTypeArguments[0].FullName;
-                eventTypes.TryAdd(routingKey!, handlerType.BaseType!.GenericTypeArguments[0]);
+                var eventType = handlerType.BaseType!.GenericTypeArguments[0];
+                EventMetaDataProvider.MetaDatas.TryAdd(
+                    eventType.FullName!,
+                    ParseEvent(eventType, settings!)
+                );
+
                 builder.Services.AddKeyedTransient(
                     typeof(IRabbitMQEventHandler),
-                    routingKey,
+                    eventType.FullName,
                     handlerType
                 );
             }
         }
-
-        builder.Services.Configure<RoutingKeyOptions>(o =>
-        {
-            o.EventTypes = eventTypes;
-        });
 
         return builder;
     }
@@ -181,7 +189,7 @@ public static class RabbitMQExtensions
             metaData.ExchangeName = settings.ExchangeName;
             metaData.ExchangeType = settings.ExchangeType;
         }
-        else 
+        else
         {
             metaData.RouteKey = attribute.RouteKey;
             metaData.QueueName = attribute.QueueName;
