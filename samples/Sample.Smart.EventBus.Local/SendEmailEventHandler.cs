@@ -4,7 +4,7 @@ using Smart.EventBus.Local;
 
 namespace Sample.Smart.EventBus.Local;
 
-internal class SendEmailEventHandler(ILogger<SendEmailEventHandler> logger) : InProcessEventHandler<UserRegistEvent>(logger)
+internal class SendEmailEventHandler(ILogger<SendEmailEventHandler> logger) : LocalEventHandler<UserRegistEvent>(logger)
 {
     public override Task InnerHandlerAsync(UserRegistEvent eventData, CancellationToken cancellationToken = default)
     {

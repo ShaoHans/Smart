@@ -15,14 +15,14 @@ public static class ServiceCollectionExtensions
     {
         if (string.IsNullOrEmpty(serviceKey))
         {
-            services.TryAddSingleton<IEventBus, InProcessEventBus>();
+            services.TryAddSingleton<IEventBus, LocalEventBus>();
         }
         else
         {
-            services.TryAddKeyedSingleton<IEventBus, InProcessEventBus>(serviceKey);
+            services.TryAddKeyedSingleton<IEventBus, LocalEventBus>(serviceKey);
         }
 
-        services.AddSingleton<InProcessEventHandlerInvoker>();
+        services.AddSingleton<LocalEventHandlerInvoker>();
 
         if (assemblies.Length == 0)
         {
@@ -33,11 +33,11 @@ public static class ServiceCollectionExtensions
         {
             var handlerTypes = assembly
                 .GetTypes()
-                .Where(t => typeof(IInProcessEventHandler).IsAssignableFrom(t));
+                .Where(t => typeof(ILocalEventHandler).IsAssignableFrom(t));
             foreach (var handlerType in handlerTypes)
             {
                 services.AddKeyedTransient(
-                    typeof(IInProcessEventHandler),
+                    typeof(ILocalEventHandler),
                     handlerType.BaseType!.GetGenericArguments()[0].Name,
                     handlerType
                 );

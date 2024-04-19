@@ -4,7 +4,7 @@ using Smart.EventBus.Local;
 
 namespace Sample.Smart.EventBus.Local;
 
-internal class AddScoreEventHandler(ILogger<AddScoreEventHandler> logger) : InProcessEventHandler<UserLoginEvent>(logger)
+internal class AddScoreEventHandler(ILogger<AddScoreEventHandler> logger) : LocalEventHandler<UserLoginEvent>(logger)
 {
     public override Task InnerHandlerAsync(UserLoginEvent eventData, CancellationToken cancellationToken = default)
     {

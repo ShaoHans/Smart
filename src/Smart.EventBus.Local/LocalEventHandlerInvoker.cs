@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Smart.EventBus.Local;
 
-internal class InProcessEventHandlerInvoker(
+internal class LocalEventHandlerInvoker(
     IServiceProvider serviceProvider,
-    ILogger<InProcessEventHandlerInvoker> logger
+    ILogger<LocalEventHandlerInvoker> logger
 )
 {
     public async Task InvokeAsync<TEvent>(
@@ -15,7 +15,7 @@ internal class InProcessEventHandlerInvoker(
         where TEvent : IEvent
     {
         var eventName = @event.GetType().Name;
-        var handlers = serviceProvider.GetKeyedServices<IInProcessEventHandler>(eventName);
+        var handlers = serviceProvider.GetKeyedServices<ILocalEventHandler>(eventName);
         if (!handlers.Any())
         {
             logger.LogWarning("It has no any event handler for [{@eventName}] event", eventName);

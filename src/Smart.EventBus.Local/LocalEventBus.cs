@@ -1,6 +1,6 @@
 ﻿namespace Smart.EventBus.Local;
 
-internal class InProcessEventBus(InProcessEventHandlerInvoker invoker) : IEventBus
+internal class LocalEventBus(LocalEventHandlerInvoker invoker) : IEventBus
 {
     public async Task PublishAsync(IEvent @event, CancellationToken cancellationToken = default)
     {
