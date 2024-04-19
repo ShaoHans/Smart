@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Smart.EventBus;
-using Smart.EventBus.InProcess;
+using Smart.EventBus.Local;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

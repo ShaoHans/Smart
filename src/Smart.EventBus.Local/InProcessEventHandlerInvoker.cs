@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Smart.EventBus.InProcess;
+namespace Smart.EventBus.Local;
 
 internal class InProcessEventHandlerInvoker(
     IServiceProvider serviceProvider,

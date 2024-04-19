@@ -2,9 +2,9 @@
 
 using Sample.Smart.EventBus.Message;
 
-using Smart.EventBus.InProcess;
+using Smart.EventBus.Local;
 
-namespace Sample.Smart.EventBus.InProcess;
+namespace Sample.Smart.EventBus.Local;
 
 internal class AddScoreEventHandler(ILogger<AddScoreEventHandler> logger) : InProcessEventHandler<UserLoginEvent>(logger)
 {

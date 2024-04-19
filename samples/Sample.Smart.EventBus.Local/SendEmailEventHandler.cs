@@ -2,9 +2,9 @@
 
 using Sample.Smart.EventBus.Message;
 
-using Smart.EventBus.InProcess;
+using Smart.EventBus.Local;
 
-namespace Sample.Smart.EventBus.InProcess;
+namespace Sample.Smart.EventBus.Local;
 
 internal class SendEmailEventHandler(ILogger<SendEmailEventHandler> logger) : InProcessEventHandler<UserRegistEvent>(logger)
 {

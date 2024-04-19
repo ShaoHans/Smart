@@ -1,4 +1,4 @@
-﻿namespace Smart.EventBus.InProcess;
+﻿namespace Smart.EventBus.Local;
 
 internal class InProcessEventBus(InProcessEventHandlerInvoker invoker) : IEventBus
 {
