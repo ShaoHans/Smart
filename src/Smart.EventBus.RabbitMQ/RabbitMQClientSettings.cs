@@ -6,9 +6,9 @@ public sealed class RabbitMQClientSettings
 
     public int MaxConnectRetryCount { get; set; } = 3;
 
-    public string? ExchangeName { get; set; }
+    public string? ExchangeName { get; set; } = "default";
 
-    public string? ExchangeType { get; set; }
+    public string? ExchangeType { get; set; } = "direct";
 
     public string? QueueName { get; set; }
 }

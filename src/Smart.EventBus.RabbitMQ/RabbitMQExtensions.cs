@@ -175,21 +175,23 @@ public static class RabbitMQExtensions
     {
         var attribute = eventType.GetCustomAttribute<EventAttribute>();
         var metaData = new EventMetaData { EventType = eventType };
-        string routingKey;
-        if (attribute is null)
-        {
-            routingKey = eventType.FullName!;
-            metaData.QueueName = settings.QueueName;
-            metaData.ExchangeName = settings.ExchangeName;
-            metaData.ExchangeType = settings.ExchangeType;
-        }
-        else
+        string routingKey = string.Empty;
+        if (attribute is not null)
         {
             routingKey = attribute.RouteKey;
             metaData.QueueName = attribute.QueueName;
             metaData.ExchangeName = attribute.ExchangeName;
             metaData.ExchangeType = attribute.ExchangeType;
         }
+
+        if (string.IsNullOrEmpty(routingKey))
+        {
+            routingKey = eventType.FullName!;
+        }
+
+        metaData.QueueName ??= settings.QueueName;
+        metaData.ExchangeName ??= settings.ExchangeName;
+        metaData.ExchangeType ??= settings.ExchangeType;
 
         EventMetaDataProvider.MetaDatas.TryAdd(routingKey, metaData);
     }
