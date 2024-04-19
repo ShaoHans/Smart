@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Sample.Smart.EventBus.Message;
+using Sample.Smart.EventBus.Local;
 
 using Smart.EventBus;
 

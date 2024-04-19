@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using Sample.Smart.EventBus.Message;
-
 using Smart.EventBus.Local;
 
 namespace Sample.Smart.EventBus.Local;

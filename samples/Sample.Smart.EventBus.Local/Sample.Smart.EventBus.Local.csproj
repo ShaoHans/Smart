@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Smart.EventBus.Local\Smart.EventBus.Local.csproj" />
-    <ProjectReference Include="..\Sample.Smart.EventBus.Message\Sample.Smart.EventBus.Message.csproj" />
   </ItemGroup>
 
 </Project>
