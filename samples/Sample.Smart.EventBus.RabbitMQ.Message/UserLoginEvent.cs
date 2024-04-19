@@ -1,6 +1,6 @@
 ﻿using Smart.EventBus;
 
-namespace Sample.Smart.EventBus.Message;
+namespace Sample.Smart.EventBus.RabbitMQ.Message;
 
 public class UserLoginEvent : EventBase
 {

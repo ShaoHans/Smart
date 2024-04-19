@@ -13,8 +13,7 @@
 	</ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Smart.EventBus.RabbitMQ\Smart.EventBus.RabbitMQ.csproj" />
-    <ProjectReference Include="..\Sample.Smart.EventBus.Message\Sample.Smart.EventBus.Message.csproj" />
+    <ProjectReference Include="..\Sample.Smart.EventBus.RabbitMQ.Message\Sample.Smart.EventBus.RabbitMQ.Message.csproj" />
   </ItemGroup>
 
   <ItemGroup>

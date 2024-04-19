@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using Sample.Smart.EventBus.Message;
+using Sample.Smart.EventBus.RabbitMQ.Message;
 
 using Smart.EventBus;
 
