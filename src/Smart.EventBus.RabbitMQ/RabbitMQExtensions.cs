@@ -173,12 +173,12 @@ public static class RabbitMQExtensions
 
     private static void AddEventMetaData(Type eventType, RabbitMQClientSettings settings)
     {
-        var attribute = eventType.GetCustomAttribute<EventAttribute>();
+        var attribute = eventType.GetCustomAttribute<RabbitMQEventAttribute>();
         var metaData = new EventMetaData { EventType = eventType };
         string routingKey = string.Empty;
         if (attribute is not null)
         {
-            routingKey = attribute.RouteKey;
+            routingKey = attribute.RoutingKey;
             metaData.QueueName = attribute.QueueName;
             metaData.ExchangeName = attribute.ExchangeName;
             metaData.ExchangeType = attribute.ExchangeType;

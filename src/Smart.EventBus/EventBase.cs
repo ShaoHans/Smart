@@ -2,12 +2,12 @@
 
 public abstract class EventBase : IEvent
 {
-    public Guid Id { get; init; }
+    public Guid EventId { get; init; }
     public DateTime CreationTime { get; init; }
 
     public EventBase()
     {
-        Id = Guid.NewGuid();
+        EventId = Guid.NewGuid();
         CreationTime = DateTime.Now;
     }
 }

@@ -18,7 +18,7 @@ internal class RabbitMQEventBus(ILogger<RabbitMQEventBus> logger, IConnection co
 
         channel.ExchangeDeclare(exchange: metaData.Value.ExchangeName, metaData.Value.ExchangeType);
         var properties = channel.CreateBasicProperties();
-        properties.MessageId = @event.Id.ToString();
+        properties.MessageId = @event.EventId.ToString();
         properties.DeliveryMode = 2;
         channel.BasicPublish(
             exchange: metaData.Value.ExchangeName,
