@@ -4,10 +4,11 @@ using Smart.Ddd.Domain.Uow;
 
 namespace Smart.Ddd.Domain.Repositories;
 
-public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
+public abstract class RepositoryBase<TEntity>(IServiceProvider serviceProvider)
+    : IRepository<TEntity>
     where TEntity : class, IEntity
 {
-    public IServiceProvider ServiceProvider { get; }
+    public IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     public virtual EntityState EntityState
     {
@@ -20,8 +21,6 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
         get => UnitOfWork.CommitState;
         protected set => UnitOfWork.CommitState = value;
     }
-
-    protected RepositoryBase(IServiceProvider serviceProvider) => ServiceProvider = serviceProvider;
 
     public abstract IUnitOfWork UnitOfWork { get; }
 

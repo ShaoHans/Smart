@@ -27,6 +27,9 @@ internal class RabbitMQEventBus(ILogger<RabbitMQEventBus> logger, IConnection co
             basicProperties: properties,
             body: JsonSerializer.SerializeToUtf8Bytes(@event, metaData.Value.EventType!)
         );
+
+        logger.LogInformation("has sent rabbitmq message : {@0}", @event);
+
         return Task.CompletedTask;
     }
 }

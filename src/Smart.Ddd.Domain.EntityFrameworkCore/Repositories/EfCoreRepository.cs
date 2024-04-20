@@ -201,7 +201,7 @@ public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWo
     {
         var entities = await GetListAsync(predicate, cancellationToken);
         EntityState = EntityState.Changed;
-        Context.Set<TEntity>().RemoveRange(entities);
+        Context.Set<TEntity>().RemoveRange(entities);        
     }
 
     public override Task RemoveRangeAsync(
@@ -233,4 +233,28 @@ public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWo
         EntityState = EntityState.Changed;
         return Task.CompletedTask;
     }
+}
+
+public class EfCoreRepository<TDbContext, TEntity, TKey>(TDbContext context, IUnitOfWork unitOfWork)
+    : EfCoreRepository<TDbContext, TEntity>(context, unitOfWork),
+        IRepository<TEntity, TKey>
+    where TEntity : class, IEntity<TKey>
+    where TDbContext : DbContext
+    where TKey : IComparable
+{
+    public virtual Task<TEntity?> FindAsync(TKey id, CancellationToken cancellationToken = default)
+    {
+        return Context.Set<TEntity>().FindAsync([id], cancellationToken).AsTask();
+        //return Context
+        //    .Set<TEntity>()
+        //    .FirstOrDefaultAsync(entity => entity.Id.Equals(id), cancellationToken);
+    }
+
+    public virtual Task RemoveAsync(TKey id, CancellationToken cancellationToken = default) =>
+        base.RemoveAsync(entity => entity.Id.Equals(id), cancellationToken);
+
+    public virtual Task RemoveRangeAsync(
+        IEnumerable<TKey> ids,
+        CancellationToken cancellationToken = default
+    ) => base.RemoveAsync(entity => ids.Contains(entity.Id), cancellationToken);
 }

@@ -7,10 +7,10 @@ using EntityState = Smart.Ddd.Domain.Uow.EntityState;
 
 namespace Smart.Ddd.Domain.EntityFrameworkCore.Uow;
 
-public class UnitOfWork<TDbContext> : IUnitOfWork
+public class UnitOfWork<TDbContext>(IServiceProvider serviceProvider) : IUnitOfWork
     where TDbContext : DbContext
 {
-    public IServiceProvider ServiceProvider { get; }
+    public IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     private DbContext? _context;
 
@@ -40,8 +40,6 @@ public class UnitOfWork<TDbContext> : IUnitOfWork
 
     public bool? UseTransaction { get; set; } = null;
 
-    public UnitOfWork(IServiceProvider serviceProvider) => ServiceProvider = serviceProvider;
-
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         if (EntityState == EntityState.UnChanged)
@@ -49,21 +47,6 @@ public class UnitOfWork<TDbContext> : IUnitOfWork
 
         await Context.SaveChangesAsync(cancellationToken);
         EntityState = EntityState.UnChanged;
-    }
-
-    /// <summary>
-    /// Release entity tracking, prevent pre-submit exceptions, be processed by other Handlers and continue execution
-    /// </summary>
-    private void DetachAll()
-    {
-        var entityEntries = Context.ChangeTracker.Entries();
-        foreach (var entry in entityEntries)
-        {
-            if (entry != null)
-            {
-                entry.State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-            }
-        }
     }
 
     public async ValueTask DisposeAsync()

@@ -6,12 +6,8 @@ using Smart.EventBus.RabbitMQ;
 
 namespace Sample.Smart.EventBus.RabbitMQ.Consumer;
 
-internal class OrderCreatedEventHandler : RabbitMQEventHandlerBase<OrderCreatedEvent>
+internal class OrderCreatedEventHandler(ILogger<OrderCreatedEventHandler> logger) : RabbitMQEventHandlerBase<OrderCreatedEvent>(logger)
 {
-    public OrderCreatedEventHandler(ILogger<OrderCreatedEventHandler> logger) : base(logger)
-    {
-    }
-
     public override Task InnerHandlerAsync(OrderCreatedEvent @event, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("order created, add score to user {@UserName}", @event.UserName);

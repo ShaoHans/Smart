@@ -3,7 +3,7 @@ using Sample.PublishSubscribePattern;
 
 var emailService = new EmailService();
 var registService = new RegistService();
-registService.RegistEvent += emailService.Send;
+registService.RegistEvent += EmailService.Send;
 
 for (int i = 0; i < 10; i++)
 {

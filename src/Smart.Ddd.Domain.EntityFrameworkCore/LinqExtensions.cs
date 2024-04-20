@@ -52,13 +52,13 @@ public static class LinqExtensions
         {
             var method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "OrderByDescending" && m.GetParameters().Length == 2);
             var genericMethod = method!.MakeGenericMethod(typeof(TEntity), propertyInfo.PropertyType);
-            return (genericMethod.Invoke(null, new object[] { query, orderExpression }) as IQueryable<TEntity>)!;
+            return (genericMethod.Invoke(null, [query, orderExpression]) as IQueryable<TEntity>)!;
         }
         else
         {
             var method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "OrderBy" && m.GetParameters().Length == 2);
             var genericMethod = method!.MakeGenericMethod(typeof(TEntity), propertyInfo.PropertyType);
-            return (IQueryable<TEntity>)genericMethod.Invoke(null, new object[] { query, orderExpression })!;
+            return (IQueryable<TEntity>)genericMethod.Invoke(null, [query, orderExpression])!;
         }
     }
 
@@ -70,13 +70,13 @@ public static class LinqExtensions
         {
             var method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "ThenByDescending" && m.GetParameters().Length == 2);
             var genericMethod = method!.MakeGenericMethod(typeof(T), propertyInfo.PropertyType);
-            return (genericMethod.Invoke(null, new object[] { query, orderExpression }) as IQueryable<T>)!;
+            return (genericMethod.Invoke(null, [query, orderExpression]) as IQueryable<T>)!;
         }
         else
         {
             var method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "ThenBy" && m.GetParameters().Length == 2);
             var genericMethod = method!.MakeGenericMethod(typeof(T), propertyInfo.PropertyType);
-            return (IQueryable<T>)genericMethod.Invoke(null, new object[] { query, orderExpression })!;
+            return (IQueryable<T>)genericMethod.Invoke(null, [query, orderExpression])!;
         }
     }
 
