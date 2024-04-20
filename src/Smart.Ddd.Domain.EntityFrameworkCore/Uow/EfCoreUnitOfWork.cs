@@ -7,7 +7,7 @@ using EntityState = Smart.Ddd.Domain.Uow.EntityState;
 
 namespace Smart.Ddd.Domain.EntityFrameworkCore.Uow;
 
-public class UnitOfWork<TDbContext>(IServiceProvider serviceProvider) : IUnitOfWork
+public class EfCoreUnitOfWork<TDbContext>(IServiceProvider serviceProvider) : IUnitOfWork
     where TDbContext : DbContext
 {
     public IServiceProvider ServiceProvider { get; } = serviceProvider;
