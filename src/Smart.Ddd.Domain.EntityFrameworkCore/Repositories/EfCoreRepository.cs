@@ -7,20 +7,14 @@ using EntityState = Smart.Ddd.Domain.Uow.EntityState;
 
 namespace Smart.Ddd.Domain.EntityFrameworkCore.Repositories;
 
-public class EfCoreRepository<TDbContext, TEntity> : RepositoryBase<TEntity>
+public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWork unitOfWork)
+    : RepositoryBase<TEntity>(unitOfWork.ServiceProvider)
     where TEntity : class, IEntity
     where TDbContext : DbContext
 {
-    protected TDbContext Context { get; }
+    protected TDbContext Context { get; } = context;
 
-    public EfCoreRepository(TDbContext context, IUnitOfWork unitOfWork)
-        : base(unitOfWork.ServiceProvider)
-    {
-        Context = context;
-        UnitOfWork = unitOfWork;
-    }
-
-    public override IUnitOfWork UnitOfWork { get; }
+    public override IUnitOfWork UnitOfWork { get; } = unitOfWork;
 
     public override EntityState EntityState
     {
