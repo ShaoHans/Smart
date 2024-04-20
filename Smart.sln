@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Smart.EventBus.Rabbi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Ddd.Domain", "src\Smart.Ddd.Domain\Smart.Ddd.Domain.csproj", "{920D973B-A4B1-4519-A764-4045C7A22383}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Ddd.Domain.EntityFrameworkCore", "src\Smart.Ddd.Domain.EntityFrameworkCore\Smart.Ddd.Domain.EntityFrameworkCore.csproj", "{84A6D0F1-9EF1-47B4-88BE-66BEB587EAA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{920D973B-A4B1-4519-A764-4045C7A22383}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{920D973B-A4B1-4519-A764-4045C7A22383}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{920D973B-A4B1-4519-A764-4045C7A22383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84A6D0F1-9EF1-47B4-88BE-66BEB587EAA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84A6D0F1-9EF1-47B4-88BE-66BEB587EAA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84A6D0F1-9EF1-47B4-88BE-66BEB587EAA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84A6D0F1-9EF1-47B4-88BE-66BEB587EAA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{F4049F85-7515-49A0-89C5-15A949135283} = {51EA2294-E71A-492E-B5BB-79E5574C027D}
 		{D880CB5E-09FE-4F43-B4E1-07724F155054} = {51EA2294-E71A-492E-B5BB-79E5574C027D}
 		{920D973B-A4B1-4519-A764-4045C7A22383} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
+		{84A6D0F1-9EF1-47B4-88BE-66BEB587EAA1} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F9930CD-A1D0-4204-A90D-5221EA216F8B}
