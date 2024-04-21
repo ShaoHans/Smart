@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Smart.Data;
-using Smart.Ddd.Domain.EntityFrameworkCore.Uow;
-using Smart.Ddd.Domain.Uow;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -27,18 +25,7 @@ public static class SmartDbContextMySQLExtensions
             mySqlOptionsAction?.Invoke(new MySqlDbContextOptionsBuilder(dbContextOptions));
         });
 
-        services.AddScoped<IUnitOfWork, EfCoreUnitOfWork<TDbContext>>();
-
-        var entityTypeAssemblies = typeof(TDbContext)
-            .GetProperties()
-            .Where(p =>
-                p.PropertyType.IsGenericType
-                && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>)
-            )
-            .Select(p => p.PropertyType.GenericTypeArguments[0].Assembly)
-            .Distinct();
-
-        services.TryAddRepository<TDbContext>(entityTypeAssemblies);
+        services.AddUowAndRepository<TDbContext>();
 
         return services;
     }
