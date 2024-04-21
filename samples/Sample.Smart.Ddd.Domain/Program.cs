@@ -11,4 +11,11 @@ var host = builder.Build();
 var userService = host.Services.GetRequiredService<UserService>();
 await userService.AddAsync("tom");
 
+var id = 6;
+var user = await userService.GetAsync(id);
+if(user is not null)
+{
+    Console.WriteLine($"id {id} user is {user.UserName}");
+}
+
 await host.RunAsync();

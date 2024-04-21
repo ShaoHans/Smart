@@ -1,10 +1,15 @@
 ﻿using Sample.Smart.Ddd.Domain.Models;
+using Sample.Smart.Ddd.Domain.Repositories;
 using Smart.Ddd.Domain.Repositories;
 using Smart.Ddd.Domain.Uow;
 
 namespace Sample.Smart.Ddd.Domain;
 
-internal class UserService(IUnitOfWork uow, IRepository<User> userRepository)
+internal class UserService(
+    IUnitOfWork uow,
+    IRepository<User> userRepository,
+    IUserRepository userRepository2
+)
 {
     public async Task AddAsync(string userName)
     {
@@ -22,5 +27,10 @@ internal class UserService(IUnitOfWork uow, IRepository<User> userRepository)
         };
         await userRepository.AddAsync(user);
         await uow.SaveChangesAsync();
+    }
+
+    public async Task<User?> GetAsync(int id)
+    {
+        return await userRepository2.FindAsync(id);
     }
 }
