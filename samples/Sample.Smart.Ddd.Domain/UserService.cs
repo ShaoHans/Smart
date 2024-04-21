@@ -8,6 +8,12 @@ internal class UserService(IUnitOfWork uow, IRepository<User> userRepository)
 {
     public async Task AddAsync(string userName)
     {
+        if (await userRepository.GetCountAsync(u => u.UserName == userName) > 0)
+        {
+            Console.WriteLine($"has exist the same username:{userName}");
+            return;
+        }
+
         var user = new User
         {
             UUId = Guid.NewGuid(),
