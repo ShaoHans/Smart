@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Smart.Data;
 using Smart.Ddd.Domain.Entities;
 using Smart.Ddd.Domain.EntityFrameworkCore.Repositories;
 using Smart.Ddd.Domain.Repositories;
@@ -13,7 +14,7 @@ public static class RepositoryServiceCollectionExtensions
         this IServiceCollection services,
         IEnumerable<Assembly> assemblies
     )
-        where TDbContext : DbContext
+        where TDbContext : DbContext, ISmartDbContext
     {
         var allTypes = assemblies.SelectMany(assembly => assembly.GetTypes()).ToList();
         var entityTypes = allTypes.Where(type => type.IsEntity());

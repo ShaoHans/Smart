@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Smart.Data;
 using Smart.Ddd.Domain.Entities;
 using Smart.Ddd.Domain.Repositories;
 using Smart.Ddd.Domain.Uow;
@@ -10,7 +11,7 @@ namespace Smart.Ddd.Domain.EntityFrameworkCore.Repositories;
 public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWork unitOfWork)
     : RepositoryBase<TEntity>(unitOfWork.ServiceProvider)
     where TEntity : class, IEntity
-    where TDbContext : DbContext
+    where TDbContext : DbContext, ISmartDbContext
 {
     protected TDbContext Context { get; } = context;
 
@@ -201,7 +202,7 @@ public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWo
     {
         var entities = await GetListAsync(predicate, cancellationToken);
         EntityState = EntityState.Changed;
-        Context.Set<TEntity>().RemoveRange(entities);        
+        Context.Set<TEntity>().RemoveRange(entities);
     }
 
     public override Task RemoveRangeAsync(
@@ -239,7 +240,7 @@ public class EfCoreRepository<TDbContext, TEntity, TKey>(TDbContext context, IUn
     : EfCoreRepository<TDbContext, TEntity>(context, unitOfWork),
         IRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
-    where TDbContext : DbContext
+    where TDbContext : DbContext, ISmartDbContext
     where TKey : IComparable
 {
     public virtual Task<TEntity?> FindAsync(TKey id, CancellationToken cancellationToken = default)

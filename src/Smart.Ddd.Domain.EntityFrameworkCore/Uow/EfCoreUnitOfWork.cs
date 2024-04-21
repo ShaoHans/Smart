@@ -2,13 +2,14 @@ using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using Smart.Data;
 using Smart.Ddd.Domain.Uow;
 using EntityState = Smart.Ddd.Domain.Uow.EntityState;
 
 namespace Smart.Ddd.Domain.EntityFrameworkCore.Uow;
 
 public class EfCoreUnitOfWork<TDbContext>(IServiceProvider serviceProvider) : IUnitOfWork
-    where TDbContext : DbContext
+    where TDbContext : DbContext, ISmartDbContext
 {
     public IServiceProvider ServiceProvider { get; } = serviceProvider;
 

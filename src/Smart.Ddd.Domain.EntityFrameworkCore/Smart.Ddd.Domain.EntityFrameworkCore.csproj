@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Smart.Data\Smart.Data.csproj" />
     <ProjectReference Include="..\Smart.Ddd.Domain\Smart.Ddd.Domain.csproj" />
   </ItemGroup>
 

@@ -1,20 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Smart.Data;
 using Smart.Ddd.Domain.EntityFrameworkCore.Uow;
 using Smart.Ddd.Domain.Uow;
 
-namespace Smart.Ddd.Domain.EntityFrameworkCore.MySQL;
+using System.Reflection;
+
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class SmartDbContextMySQLExtensions
 {
-    public static IServiceCollection AddDbContext<TDbContext>(
+    public static IServiceCollection AddSmartDbContext<TDbContext>(
         this IServiceCollection services,
         string connectionString,
         Action<MySqlDbContextOptionsBuilder>? mySqlOptionsAction = null
     )
-        where TDbContext : DbContext
+        where TDbContext : DbContext, ISmartDbContext
     {
         services.AddDbContext<TDbContext>(dbContextOptions =>
         {
@@ -32,6 +34,9 @@ public static class SmartDbContextMySQLExtensions
         });
 
         services.AddScoped<IUnitOfWork, EfCoreUnitOfWork<TDbContext>>();
+
+        services.TryAddRepository<TDbContext>([Assembly.GetExecutingAssembly()]);
+
         return services;
     }
 }
