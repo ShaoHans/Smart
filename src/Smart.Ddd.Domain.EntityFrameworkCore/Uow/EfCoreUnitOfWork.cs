@@ -48,6 +48,12 @@ public class EfCoreUnitOfWork<TDbContext>(IServiceProvider serviceProvider) : IU
 
         await Context.SaveChangesAsync(cancellationToken);
         EntityState = EntityState.UnChanged;
+
+        if (UseTransaction is not false && TransactionHasBegun && CommitState == CommitState.UnCommited)
+        {
+            await Context.Database.CommitTransactionAsync(cancellationToken);
+            CommitState = CommitState.Commited;
+        }
     }
 
     public async ValueTask DisposeAsync()

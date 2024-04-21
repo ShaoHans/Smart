@@ -20,7 +20,7 @@ public static class SmartDbContextMySQLExtensions
     {
         services.AddDbContext<TDbContext>(dbContextOptions =>
         {
-            dbContextOptions.UseMySql(ServerVersion.AutoDetect(connectionString));
+            dbContextOptions.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 #if DEBUG
             // The following three options help with debugging, but should
             // be changed or removed for production.
@@ -35,7 +35,7 @@ public static class SmartDbContextMySQLExtensions
 
         services.AddScoped<IUnitOfWork, EfCoreUnitOfWork<TDbContext>>();
 
-        services.TryAddRepository<TDbContext>([Assembly.GetExecutingAssembly()]);
+        services.TryAddRepository<TDbContext>([Assembly.GetEntryAssembly()!]);
 
         return services;
     }
