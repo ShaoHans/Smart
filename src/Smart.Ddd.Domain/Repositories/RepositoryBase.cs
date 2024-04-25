@@ -201,7 +201,7 @@ public abstract class RepositoryBase<TEntity>(IServiceProvider serviceProvider)
         };
     }
 
-    public abstract Task<List<TResult>> SqlQueryAsync<TResult>(string sql, params object[] parameters);
+    public abstract Task<List<TResult>> GetListAsync<TResult>(string sql, params object[] parameters);
 
     #endregion
 }

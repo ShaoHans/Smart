@@ -185,7 +185,7 @@ public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWo
             .ToListAsync(cancellationToken);
     }
 
-    public override Task<List<TResult>> SqlQueryAsync<TResult>(string sql, params object[] parameters)
+    public override Task<List<TResult>> GetListAsync<TResult>(string sql, params object[] parameters)
     {
         return Context.Database.SqlQueryRaw<TResult>(sql, parameters).ToListAsync();
     }
