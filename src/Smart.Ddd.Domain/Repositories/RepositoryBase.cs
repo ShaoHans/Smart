@@ -73,7 +73,7 @@ public abstract class RepositoryBase<TEntity>(IServiceProvider serviceProvider)
         }
     }
 
-    public abstract Task BulkDeleteAsync(
+    public abstract Task<int> BulkDeleteAsync(
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default
     );

@@ -215,14 +215,12 @@ public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWo
         return Task.CompletedTask;
     }
 
-    public override Task BulkDeleteAsync(
+    public override Task<int> BulkDeleteAsync(
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default
     )
     {
-        Context.Set<TEntity>().Where(predicate).ExecuteDelete();
-        EntityState = EntityState.Changed;
-        return Task.CompletedTask;
+        return Context.Set<TEntity>().Where(predicate).ExecuteDeleteAsync(cancellationToken);
     }
 
     public override Task<TEntity> UpdateAsync(

@@ -42,7 +42,7 @@ public interface IRepository<TEntity>
         CancellationToken cancellationToken = default
     );
 
-    Task BulkDeleteAsync(
+    Task<int> BulkDeleteAsync(
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default
     );
