@@ -135,6 +135,8 @@ public interface IRepository<TEntity>
         CancellationToken cancellationToken = default
     );
 
+    Task<List<TResult>> SqlQueryAsync<TResult>(string sql, params object[] parameters);
+
     #endregion
 }
 
