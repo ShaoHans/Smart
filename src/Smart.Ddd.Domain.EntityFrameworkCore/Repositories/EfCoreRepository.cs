@@ -247,6 +247,11 @@ public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWo
         EntityState = EntityState.Changed;
         return Task.CompletedTask;
     }
+
+    public override Task<int> ExecuteNonQuerySqlAsync(string sql, params object[] parameters)
+    {
+        return Context.Database.ExecuteSqlRawAsync(sql, parameters);
+    }
 }
 
 public class EfCoreRepository<TDbContext, TEntity, TKey>(TDbContext context, IUnitOfWork unitOfWork)

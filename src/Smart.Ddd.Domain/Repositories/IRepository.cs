@@ -137,6 +137,8 @@ public interface IRepository<TEntity>
 
     Task<List<TResult>> GetListAsync<TResult>(string sql, params object[] parameters);
 
+    Task<int> ExecuteNonQuerySqlAsync(string sql, params object[] parameters);
+
     #endregion
 }
 
