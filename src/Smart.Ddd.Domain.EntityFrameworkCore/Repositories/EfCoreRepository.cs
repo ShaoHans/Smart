@@ -215,6 +215,16 @@ public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWo
         return Task.CompletedTask;
     }
 
+    public override Task BulkDeleteAsync(
+        Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default
+    )
+    {
+        Context.Set<TEntity>().Where(predicate).ExecuteDelete();
+        EntityState = EntityState.Changed;
+        return Task.CompletedTask;
+    }
+
     public override Task<TEntity> UpdateAsync(
         TEntity entity,
         CancellationToken cancellationToken = default
@@ -229,7 +239,7 @@ public class EfCoreRepository<TDbContext, TEntity>(TDbContext context, IUnitOfWo
         IEnumerable<TEntity> entities,
         CancellationToken cancellationToken = default
     )
-    {
+    {        
         Context.Set<TEntity>().UpdateRange(entities);
         EntityState = EntityState.Changed;
         return Task.CompletedTask;
