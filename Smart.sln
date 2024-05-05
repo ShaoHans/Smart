@@ -25,17 +25,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Smart.EventBus.Local
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Smart.EventBus.RabbitMQ.Message", "samples\Sample.Smart.EventBus.RabbitMQ.Message\Sample.Smart.EventBus.RabbitMQ.Message.csproj", "{D880CB5E-09FE-4F43-B4E1-07724F155054}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Ddd.Domain", "src\Smart.Ddd.Domain\Smart.Ddd.Domain.csproj", "{920D973B-A4B1-4519-A764-4045C7A22383}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Ddd.Domain", "src\Smart.Ddd.Domain\Smart.Ddd.Domain.csproj", "{920D973B-A4B1-4519-A764-4045C7A22383}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Ddd.Domain.EntityFrameworkCore", "src\Smart.Ddd.Domain.EntityFrameworkCore\Smart.Ddd.Domain.EntityFrameworkCore.csproj", "{84A6D0F1-9EF1-47B4-88BE-66BEB587EAA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Ddd.Domain.EntityFrameworkCore", "src\Smart.Ddd.Domain.EntityFrameworkCore\Smart.Ddd.Domain.EntityFrameworkCore.csproj", "{84A6D0F1-9EF1-47B4-88BE-66BEB587EAA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Ddd.Domain.EntityFrameworkCore.MySQL", "src\Smart.Ddd.Domain.EntityFrameworkCore.MySQL\Smart.Ddd.Domain.EntityFrameworkCore.MySQL.csproj", "{46B3747D-FCF9-4D76-B453-E8F74B7AEF6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Ddd.Domain.EntityFrameworkCore.MySQL", "src\Smart.Ddd.Domain.EntityFrameworkCore.MySQL\Smart.Ddd.Domain.EntityFrameworkCore.MySQL.csproj", "{46B3747D-FCF9-4D76-B453-E8F74B7AEF6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Smart.Ddd.Domain", "samples\Sample.Smart.Ddd.Domain\Sample.Smart.Ddd.Domain.csproj", "{1FC7144F-88DC-44B3-85F8-D864C69772C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Smart.Ddd.Domain", "samples\Sample.Smart.Ddd.Domain\Sample.Smart.Ddd.Domain.csproj", "{1FC7144F-88DC-44B3-85F8-D864C69772C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Data", "src\Smart.Data\Smart.Data.csproj", "{DFC77A9B-14FA-468D-BB02-F2A05976CFA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Data", "src\Smart.Data\Smart.Data.csproj", "{DFC77A9B-14FA-468D-BB02-F2A05976CFA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{B18E2553-50C6-4DF4-A6B5-1C00264C9492}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.EventBus.Channel", "src\Smart.EventBus.Channel\Smart.EventBus.Channel.csproj", "{2B4C4F4E-789C-486C-A1AE-5D5AC6A79C62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{DFC77A9B-14FA-468D-BB02-F2A05976CFA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFC77A9B-14FA-468D-BB02-F2A05976CFA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFC77A9B-14FA-468D-BB02-F2A05976CFA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B4C4F4E-789C-486C-A1AE-5D5AC6A79C62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B4C4F4E-789C-486C-A1AE-5D5AC6A79C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B4C4F4E-789C-486C-A1AE-5D5AC6A79C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B4C4F4E-789C-486C-A1AE-5D5AC6A79C62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{46B3747D-FCF9-4D76-B453-E8F74B7AEF6C} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
 		{1FC7144F-88DC-44B3-85F8-D864C69772C0} = {51EA2294-E71A-492E-B5BB-79E5574C027D}
 		{DFC77A9B-14FA-468D-BB02-F2A05976CFA4} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
+		{2B4C4F4E-789C-486C-A1AE-5D5AC6A79C62} = {5C3C9274-8A3A-4700-A13F-DF3E48BE087C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F9930CD-A1D0-4204-A90D-5221EA216F8B}
